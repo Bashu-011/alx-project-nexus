@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Core.Entities
 {
-    internal class BaseEntity
+    //base entity that other classes will inherit from
+    public abstract class BaseEntity
     {
+        public Guid Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }
