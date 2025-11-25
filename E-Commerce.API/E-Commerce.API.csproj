@@ -15,10 +15,20 @@
     </PackageReference>
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
+
+    <!-- Added: JWT auth types -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.11" />
+
+    <!-- Added: explicit OpenAPI models (if Swashbuckle does not resolve Microsoft.OpenApi.Models) -->
+    <PackageReference Include="Microsoft.OpenApi" Version="1.3.0" />
+    
+    <!-- If you configure PostgreSQL in Program.cs, ensure provider is available at compile time -->
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\E-Commerce.Application\E-Commerce.Application.csproj" />
+    <ProjectReference Include="..\E-Commerce.Core\E-Commerce.Core.csproj" />
     <ProjectReference Include="..\E-Commerce.Infrastructure\E-Commerce.Infrastructure.csproj" />
   </ItemGroup>
 

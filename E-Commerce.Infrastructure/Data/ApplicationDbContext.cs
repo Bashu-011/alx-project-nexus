@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace E_Commerce.Infrastructure.Data
@@ -24,9 +25,9 @@ namespace E_Commerce.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // User Configuration
+            // User entity setup
             modelBuilder.Entity<User>(entity =>
-            {
+            {  
                 entity.HasKey(e => e.Id);
                 entity.HasIndex(e => e.Email).IsUnique();
                 entity.Property(e => e.Email).IsRequired().HasMaxLength(255);
@@ -34,7 +35,7 @@ namespace E_Commerce.Infrastructure.Data
                 entity.Property(e => e.LastName).IsRequired().HasMaxLength(100);
             });
 
-            // Category Configuration
+            // Category entity
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -43,7 +44,7 @@ namespace E_Commerce.Infrastructure.Data
                 entity.Property(e => e.Slug).IsRequired().HasMaxLength(100);
             });
 
-            // Product Configuration
+            // Product entity
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -84,7 +85,7 @@ namespace E_Commerce.Infrastructure.Data
                 {
                     Id = categoryId2,
                     Name = "Books",
-                    Description = "Books and publications",
+                    Description = "Books and magazines",
                     Slug = "books",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
