@@ -3,7 +3,6 @@ using E_Commerce.Application.DTOs.Auth;
 using E_Commerce.Application.Interfaces;
 using E_Commerce.Core.Entities;
 using E_Commerce.Core.Interfaces;
-using ECommerce.Core.Interfaces;
 
 namespace E_Commerce.Application.Services;
 
@@ -25,7 +24,7 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
+    public async Task<AuthResponse> RegisterAsync(RegisterationRequest request)
     {
         //check if user already exists
         var existingUser = await _userRepository.GetByEmailAsync(request.Email);
