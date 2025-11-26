@@ -3,11 +3,11 @@ using FluentValidation;
 
 namespace E_Commerce.Application.Validators.Products;
 
-//Checks whether the CreateProductRequest data is valid, throws error if not
+// Checks whether the UpdateProductRequest data is valid, throws error if not
 
-public class CreateProductRequestValidator : AbstractValidator<CreateProductRequest>
+public class UpdateProductRequestValidator : AbstractValidator<UpdateProductRequest>
 {
-    public CreateProductRequestValidator()
+    public UpdateProductRequestValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Product name is required")
@@ -25,7 +25,7 @@ public class CreateProductRequestValidator : AbstractValidator<CreateProductRequ
             .GreaterThanOrEqualTo(0).WithMessage("Stock quantity cannot be negative");
 
         RuleFor(x => x.ImageUrl)
-            .NotEmpty().WithMessage("Image URL is required");
+            .NotEmpty().WithMessage("Image is required");
 
         RuleFor(x => x.CategoryId)
             .NotEmpty().WithMessage("Category is required");
