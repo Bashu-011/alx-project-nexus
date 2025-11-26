@@ -3,7 +3,7 @@ using E_Commerce.Application.DTOs.Auth;
 using E_Commerce.Application.DTOs.Categories;
 using E_Commerce.Application.DTOs.Products;
 using E_Commerce.Core.Entities;
-using Microsoft.AspNetCore.Identity.Data;
+//using Microsoft.AspNetCore.Identity.Data;
 
 namespace E_Commerce.Application.Mappings;
 
@@ -17,7 +17,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Token, opt => opt.Ignore())
             .ForMember(dest => dest.ExpiresAt, opt => opt.Ignore());
 
-        CreateMap<RegisterRequest, User>()
+        CreateMap<RegisterationRequest, User>()
             .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())

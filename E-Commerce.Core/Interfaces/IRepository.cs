@@ -1,7 +1,7 @@
 using E_Commerce.Core.Entities;
 using System.Linq.Expressions;
 
-namespace ECommerce.Core.Interfaces;
+namespace E_Commerce.Core.Interfaces;
 
 public interface IRepository<T> where T : BaseEntity
 {

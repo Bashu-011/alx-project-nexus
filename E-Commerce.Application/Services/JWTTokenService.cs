@@ -1,14 +1,11 @@
 ﻿using E_Commerce.Core.Entities;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 
 namespace E_Commerce.Application.Services;
-
-// Service for generating JWT tokens for authenticated users
 
 public class JwtTokenService
 {

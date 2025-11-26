@@ -1,9 +1,9 @@
 ﻿using E_Commerce.Core.Entities;
 using E_Commerce.Infrastructure.Data;
-using ECommerce.Core.Interfaces;
+using E_Commerce.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace ECommerce.Infrastructure.Repositories;
+namespace E_Commerce.Infrastructure.Repositories;
 
 public class UserRepository : Repository<User>, IUserRepository
 {

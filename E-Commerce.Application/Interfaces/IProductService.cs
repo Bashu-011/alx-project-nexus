@@ -1,5 +1,5 @@
-﻿using E_Commerce.Application.DTOs.Common;
-using E_Commerce.Application.DTOs.Products;
+﻿using E_Commerce.Application.DTOs.Products;
+using E_Commerce.Application.DTOs.Common;
 
 namespace E_Commerce.Application.Interfaces;
 
