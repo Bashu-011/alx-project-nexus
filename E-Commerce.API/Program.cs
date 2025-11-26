@@ -1,16 +1,37 @@
+using E_Commerce.Application.Interfaces;
+using E_Commerce.Application.Mappings;
+using E_Commerce.Application.Services;
+using E_Commerce.Core.Interfaces;
 using E_Commerce.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
-using System.Text;
+using E_Commerce.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 //add services to the container
 builder.Services.AddControllers();
+
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Application Services
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
+// Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+// Register token service
+builder.Services.AddScoped<JwtTokenService>();
 
 //postgresql configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

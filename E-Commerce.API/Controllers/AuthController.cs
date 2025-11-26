@@ -1,7 +1,6 @@
 ﻿using E_Commerce.Application.DTOs.Auth;
 using E_Commerce.Application.DTOs.Common;
 using E_Commerce.Application.Interfaces;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.API.Controllers;
@@ -28,7 +27,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     [ProducesResponseType(typeof(ApiResponse<AuthResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<AuthResponse>), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ApiResponse<AuthResponse>>> Register([FromBody] RegisterRequest request)
+    public async Task<ActionResult<ApiResponse<AuthResponse>>> Register([FromBody] RegisterationRequest request)
     {
         try
         {

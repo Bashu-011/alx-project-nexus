@@ -4,7 +4,7 @@ using E_Commerce.Application.DTOs.Products;
 using E_Commerce.Application.Interfaces;
 using E_Commerce.Core.Entities;
 using E_Commerce.Core.Interfaces;
-using ECommerce.Core.Interfaces;
+using E_Commerce.Core.Interfaces;
 
 namespace E_Commerce.Application.Services;
 

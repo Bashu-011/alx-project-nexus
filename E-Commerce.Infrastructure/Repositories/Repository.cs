@@ -1,10 +1,10 @@
 ﻿using E_Commerce.Core.Entities;
 using E_Commerce.Infrastructure.Data;
-using ECommerce.Core.Interfaces;
+using E_Commerce.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace ECommerce.Infrastructure.Repositories;
+namespace E_Commerce.Infrastructure.Repositories;
 
 // generic repository implementation for CRUD operations across entities
 public class Repository<T> : IRepository<T> where T : BaseEntity
