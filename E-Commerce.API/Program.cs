@@ -76,6 +76,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddControllers();
+
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
