@@ -14,6 +14,12 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//kestrel configuration for docker and railway deployment
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(8080); //railway uses port 8080
+});
+
 //add services to the container
 builder.Services.AddControllers();
 
@@ -118,6 +124,26 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+//apply migrations automativcally on startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+
+        // Apply pending migrations
+        context.Database.Migrate();
+
+        Console.WriteLine("Database migrations applied successfully");
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+}
+
 //HTTP request pipeline configuration
 if (app.Environment.IsDevelopment())
 {
@@ -131,7 +157,30 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAll");
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            //development: Allow all
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        }
+        else
+        {
+            //production -Specify allowed origins
+            policy.WithOrigins(
+                "https://yourdomain.com",           // Your frontend
+                "https://www.yourdomain.com"        // www version
+            )
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+        }
+    });
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
