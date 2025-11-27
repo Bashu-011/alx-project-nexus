@@ -33,30 +33,34 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<JwtTokenService>();
 
 //db configuratuion
-var isProduction = builder.Environment.IsProduction();
+var isProduction = builder.Environment.IsDevelopment();
 
 string connectionString;
 
 if (isProduction)
 {
-    // Build PostgreSQL connection string using Railway env vars
-    var host = Environment.GetEnvironmentVariable("PGHOST");
-    var port = Environment.GetEnvironmentVariable("PGPORT");
-    var db = Environment.GetEnvironmentVariable("PGDATABASE");
-    var user = Environment.GetEnvironmentVariable("PGUSER");
-    var pass = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
+    var dbUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
-    if (host == null || port == null || db == null || user == null || pass == null)
-        throw new Exception("One or more Railway database environment variables are missing.");
+    if (string.IsNullOrEmpty(dbUrl))
+        throw new Exception("Railway DATABASE_URL is missing.");
+
+    var builderUri = new Uri(dbUrl);
+    var userInfo = builderUri.UserInfo.Split(':');
+
+    var username = userInfo[0];
+    var password = userInfo[1];
+    var host = builderUri.Host;
+    var port = builderUri.Port;
+    var database = builderUri.LocalPath.TrimStart('/');
 
     connectionString =
-        $"Host={host};Port={port};Database={db};Username={user};Password={pass};SSL Mode=Require;Trust Server Certificate=true";
+        $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
 }
 else
 {
-    // Local development
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 }
+
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
