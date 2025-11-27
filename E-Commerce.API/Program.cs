@@ -33,7 +33,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<JwtTokenService>();
 
 //db configuratuion
-var isProduction = builder.Environment.IsDevelopment();
+var isProduction = builder.Environment.IsProduction();
 
 string connectionString;
 
