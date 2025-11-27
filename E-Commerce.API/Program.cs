@@ -37,30 +37,7 @@ var isProduction = builder.Environment.IsProduction();
 
 string connectionString;
 
-if (isProduction)
-{
-    var dbUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-
-    if (string.IsNullOrEmpty(dbUrl))
-        throw new Exception("Railway DATABASE_URL is missing.");
-
-    var builderUri = new Uri(dbUrl);
-    var userInfo = builderUri.UserInfo.Split(':');
-
-    var username = userInfo[0];
-    var password = userInfo[1];
-    var host = builderUri.Host;
-    var port = builderUri.Port;
-    var database = builderUri.LocalPath.TrimStart('/');
-
-    connectionString =
-        $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
-}
-else
-{
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-}
-
+connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
