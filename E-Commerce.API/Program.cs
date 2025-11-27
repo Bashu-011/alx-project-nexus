@@ -133,25 +133,20 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// ------------------------
-// APPLY MIGRATIONS
-// ------------------------
+//migrations
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.Migrate();
 }
 
-// ------------------------
-// HTTP PIPELINE
-// ------------------------
+
 
     app.UseSwagger();
     app.UseSwaggerUI();
 
 app.UseCors("AllowAll");
 
-// DO NOT USE HTTPS ON RAILWAY
 // app.UseHttpsRedirection();
 
 app.UseAuthentication();
