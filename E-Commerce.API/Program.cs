@@ -32,32 +32,38 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<JwtTokenService>();
 
-// ------------------------
-// DATABASE CONFIGURATION
-// ------------------------
+//db configuratuion
+var isProduction = builder.Environment.IsProduction();
+
 string connectionString;
 
-if (builder.Environment.IsProduction())
+if (isProduction)
 {
-    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
-        ?? throw new Exception("DATABASE_URL environment variable is missing.");
+    // Build PostgreSQL connection string using Railway env vars
+    var host = Environment.GetEnvironmentVariable("PGHOST");
+    var port = Environment.GetEnvironmentVariable("PGPORT");
+    var db = Environment.GetEnvironmentVariable("PGDATABASE");
+    var user = Environment.GetEnvironmentVariable("PGUSER");
+    var pass = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
 
-    // Ensure SSL is required for Railway
-    if (!connectionString.Contains("sslmode"))
-        connectionString += "?sslmode=Require";
+    if (host == null || port == null || db == null || user == null || pass == null)
+        throw new Exception("One or more Railway database environment variables are missing.");
+
+    connectionString =
+        $"Host={host};Port={port};Database={db};Username={user};Password={pass};SSL Mode=Require;Trust Server Certificate=true";
 }
 else
 {
+    // Local development
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 }
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString)
 );
 
-// ------------------------
-// JWT Authentication
-// ------------------------
+//jwt authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
 
@@ -78,9 +84,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// ------------------------
-// CORS
-// ------------------------
+//cors
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -141,11 +145,9 @@ using (var scope = app.Services.CreateScope())
 // ------------------------
 // HTTP PIPELINE
 // ------------------------
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 app.UseCors("AllowAll");
 
