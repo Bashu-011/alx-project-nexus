@@ -26,11 +26,23 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
-builder.Services.AddScoped<ICartService, CartService>();
+//order repo registrations
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+
+// Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+//cart repo registration
+builder.Services.AddScoped<ICartService, CartService>();
+//order service registration
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+// Register token service
 builder.Services.AddScoped<JwtTokenService>();
+//register mpesa service
+builder.Services.AddHttpClient<MpesaService>();
 
 //db configuratuion
 var isProduction = builder.Environment.IsProduction();

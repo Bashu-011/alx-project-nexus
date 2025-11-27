@@ -2,6 +2,7 @@
 using E_Commerce.Application.DTOs.Auth;
 using E_Commerce.Application.DTOs.Cart;
 using E_Commerce.Application.DTOs.Categories;
+using E_Commerce.Application.DTOs.Orders;
 using E_Commerce.Application.DTOs.Products;
 using E_Commerce.Core.Entities;
 //using Microsoft.AspNetCore.Identity.Data;
@@ -72,5 +73,13 @@ public class MappingProfile : Profile
                 opt => opt.MapFrom(src => src.Product.Name))
             .ForMember(dest => dest.ProductImageUrl,
                 opt => opt.MapFrom(src => src.Product.ImageUrl));
+
+        //order → OrderDto
+        CreateMap<Order, OrderDto>()
+            .ForMember(dest => dest.Status,
+                opt => opt.MapFrom(src => src.Status.ToString()));
+
+        //orderItem → OrderItemDto
+        CreateMap<OrderItem, OrderItemDto>();
     }
 }
