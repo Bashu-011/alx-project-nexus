@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using E_Commerce.Application.DTOs.Auth;
+using E_Commerce.Application.DTOs.Cart;
 using E_Commerce.Application.DTOs.Categories;
 using E_Commerce.Application.DTOs.Products;
 using E_Commerce.Core.Entities;
@@ -61,5 +62,15 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.Products, opt => opt.Ignore());
+
+        //cart map
+        CreateMap<Cart, CartDto>();
+
+        //cartItem -> cartItemDto
+        CreateMap<CartItem, CartItemDto>()
+            .ForMember(dest => dest.ProductName,
+                opt => opt.MapFrom(src => src.Product.Name))
+            .ForMember(dest => dest.ProductImageUrl,
+                opt => opt.MapFrom(src => src.Product.ImageUrl));
     }
 }
