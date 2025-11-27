@@ -24,11 +24,17 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+//cart repo registerartion
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+
+
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+//cart repo registration
+builder.Services.AddScoped<ICartService, CartService>();
 
 // Register token service
 builder.Services.AddScoped<JwtTokenService>();
