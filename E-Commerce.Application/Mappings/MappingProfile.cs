@@ -72,5 +72,13 @@ public class MappingProfile : Profile
                 opt => opt.MapFrom(src => src.Product.Name))
             .ForMember(dest => dest.ProductImageUrl,
                 opt => opt.MapFrom(src => src.Product.ImageUrl));
+
+        //order → OrderDto
+        CreateMap<Order, OrderDto>()
+            .ForMember(dest => dest.Status,
+                opt => opt.MapFrom(src => src.Status.ToString()));
+
+        //orderItem → OrderItemDto
+        CreateMap<OrderItem, OrderItemDto>();
     }
 }
