@@ -21,6 +21,10 @@ namespace E_Commerce.Infrastructure.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        //Cart and cart items
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -61,6 +65,52 @@ namespace E_Commerce.Infrastructure.Data
                       .HasForeignKey(e => e.CategoryId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
+
+
+            //Cart entity
+            modelBuilder.Entity<Cart>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.HasIndex(e => new { e.UserId, e.IsActive });
+
+                //user can have many carts
+                entity.HasOne(e => e.User)
+                      .WithMany()  
+                      .HasForeignKey(e => e.UserId)
+                      .OnDelete(DeleteBehavior.Cascade); 
+            });
+
+
+            modelBuilder.Entity<CartItem>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                //indexing
+                entity.HasIndex(e => e.CartId);
+
+                //must have quantity
+                entity.Property(e => e.Quantity)
+                      .IsRequired();
+
+                
+                entity.Property(e => e.UnitPrice)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                //cart has many items
+                entity.HasOne(e => e.Cart)
+                      .WithMany(c => c.Items)
+                      .HasForeignKey(e => e.CartId)
+                      .OnDelete(DeleteBehavior.Cascade);  //If cart deleted, delete its items
+
+                //one product un many cart items
+                entity.HasOne(e => e.Product)
+                      .WithMany()
+                      .HasForeignKey(e => e.ProductId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
 
             // Seed Data
             SeedData(modelBuilder);
