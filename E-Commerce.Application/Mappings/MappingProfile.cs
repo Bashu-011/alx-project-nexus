@@ -2,6 +2,7 @@
 using E_Commerce.Application.DTOs.Auth;
 using E_Commerce.Application.DTOs.Cart;
 using E_Commerce.Application.DTOs.Categories;
+using E_Commerce.Application.DTOs.Orders;
 using E_Commerce.Application.DTOs.Products;
 using E_Commerce.Core.Entities;
 //using Microsoft.AspNetCore.Identity.Data;

@@ -26,7 +26,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 //cart repo registerartion
 builder.Services.AddScoped<ICartRepository, CartRepository>();
-
+//order repo registrations
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
 // Repositories
@@ -35,9 +36,13 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //cart repo registration
 builder.Services.AddScoped<ICartService, CartService>();
+//order service registration
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 // Register token service
 builder.Services.AddScoped<JwtTokenService>();
+//register mpesa service
+builder.Services.AddHttpClient<MpesaService>();
 
 //postgresql configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
