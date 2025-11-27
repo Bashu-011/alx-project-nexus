@@ -25,6 +25,10 @@ namespace E_Commerce.Infrastructure.Data
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
 
+        //order dbsets
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -109,6 +113,82 @@ namespace E_Commerce.Infrastructure.Data
                       .WithMany()
                       .HasForeignKey(e => e.ProductId)
                       .OnDelete(DeleteBehavior.Restrict);
+            });
+
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                //indexing 
+                entity.HasIndex(e => e.UserId);
+
+                // Indexing for order numbers 
+                entity.HasIndex(e => e.OrderNumber).IsUnique();
+
+                //indexing for mpesa tracking
+                entity.HasIndex(e => e.MpesaCheckoutRequestId);
+
+                entity.Property(e => e.OrderNumber)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(e => e.TotalAmount)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                entity.Property(e => e.PhoneNumber)
+                      .HasMaxLength(15);
+
+                entity.Property(e => e.MpesaReceiptNumber)
+                      .HasMaxLength(50);
+
+                entity.Property(e => e.MpesaCheckoutRequestId)
+                      .HasMaxLength(100);
+
+                entity.Property(e => e.MpesaMerchantRequestId)
+                      .HasMaxLength(100);
+
+                //user has many orders
+                entity.HasOne(e => e.User)
+                      .WithMany()
+                      .HasForeignKey(e => e.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<OrderItem>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                //indexing to get orders
+                entity.HasIndex(e => e.OrderId);
+
+                entity.Property(e => e.ProductName)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                entity.Property(e => e.ProductImageUrl)
+                      .HasMaxLength(500);
+
+                entity.Property(e => e.UnitPrice)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                entity.Property(e => e.TotalPrice)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                //an order has many items
+                entity.HasOne(e => e.Order)
+                      .WithMany(o => o.Items)
+                      .HasForeignKey(e => e.OrderId)
+                      .OnDelete(DeleteBehavior.Cascade); //delete items if order deleted
+
+                //order itemes ref products
+                entity.HasOne(e => e.Product)
+                      .WithMany()
+                      .HasForeignKey(e => e.ProductId)
+                      .OnDelete(DeleteBehavior.Restrict);  //don't delete product if in orders
             });
 
 
