@@ -8,20 +8,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
-//kestrel configuration for docker and railway deployment
-builder.WebHost.ConfigureKestrel(serverOptions =>
+// Kestrel config for Railway
+builder.WebHost.ConfigureKestrel(options =>
 {
-    serverOptions.ListenAnyIP(8080); //railway uses port 8080
+    options.ListenAnyIP(8080);
 });
-
-//add services to the container
-builder.Services.AddControllers();
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -30,34 +25,43 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
-//cart repo registerartion
 builder.Services.AddScoped<ICartRepository, CartRepository>();
-
-
-
-// Repositories
+builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-//cart repo registration
-builder.Services.AddScoped<ICartService, CartService>();
-
-// Register token service
 builder.Services.AddScoped<JwtTokenService>();
 
-//postgresql configuration
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// ------------------------
+// DATABASE CONFIGURATION
+// ------------------------
+string connectionString;
 
-//configure jwt
+if (builder.Environment.IsProduction())
+{
+    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
+        ?? throw new Exception("DATABASE_URL environment variable is missing.");
+
+    // Ensure SSL is required for Railway
+    if (!connectionString.Contains("sslmode"))
+        connectionString += "?sslmode=Require";
+}
+else
+{
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+}
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(connectionString)
+);
+
+// ------------------------
+// JWT Authentication
+// ------------------------
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -74,7 +78,20 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-//swagger
+// ------------------------
+// CORS
+// ------------------------
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -82,10 +99,9 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "E-Commerce API",
         Version = "v1",
-        Description = "A robust e-commerce backend API with authentication and product management"
+        Description = "A robust e-commerce backend API"
     });
 
-    //add jwt auth to swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme",
@@ -111,76 +127,30 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-//CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-});
-
 var app = builder.Build();
 
-//apply migrations automativcally on startup
+// ------------------------
+// APPLY MIGRATIONS
+// ------------------------
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<ApplicationDbContext>();
-
-        // Apply pending migrations
-        context.Database.Migrate();
-
-        Console.WriteLine("Database migrations applied successfully");
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while migrating the database.");
-    }
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
 }
 
-//HTTP request pipeline configuration
+// ------------------------
+// HTTP PIPELINE
+// ------------------------
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "E-Commerce API V1");
-        c.RoutePrefix = string.Empty; //Swagger is the root
-    });
+    app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        if (builder.Environment.IsDevelopment())
-        {
-            //development: Allow all
-            policy.AllowAnyOrigin()
-                  .AllowAnyMethod()
-                  .AllowAnyHeader();
-        }
-        else
-        {
-            //production -Specify allowed origins
-            policy.WithOrigins(
-                "https://yourdomain.com",           // Your frontend
-                "https://www.yourdomain.com"        // www version
-            )
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
-        }
-    });
-});
+// DO NOT USE HTTPS ON RAILWAY
+// app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
