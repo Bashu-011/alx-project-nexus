@@ -193,7 +193,7 @@ namespace E_Commerce.Infrastructure.Data
 
 
             // Seed Data
-            //SeedData(modelBuilder);
+            SeedData(modelBuilder);
         }
 
         private void SeedData(ModelBuilder modelBuilder)
