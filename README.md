@@ -34,7 +34,7 @@ A production-ready e-commerce backend API built with ASP.NET Core 8.0, featuring
 
 ---
 
-## ? Features
+## Features
 
 ### Core Functionality
 -  **User Authentication & Authorization** - JWT-based secure authentication
@@ -95,26 +95,26 @@ The project follows **Clean Architecture** principles with clear separation of c
 
 ```
 E-Commerce Backend
-?
-??? E_Commerce.API (Presentation Layer)
-?   ??? Controllers/          # API endpoints
-?   ??? Program.cs           # Application entry point
-?   ??? Dockerfile           # Container configuration
-?
-??? E_Commerce.Application (Application Layer)
-?   ??? DTOs/                # Data Transfer Objects
-?   ??? Interfaces/          # Service contracts
-?   ??? Services/            # Business logic
-?   ??? Mappings/            # AutoMapper profiles
-?   ??? Validators/          # Input validation
-?
-??? E_Commerce.Core (Domain Layer)
-?   ??? Entities/            # Domain models
-?   ??? Interfaces/          # Repository contracts
-?
-??? E_Commerce.Infrastructure (Infrastructure Layer)
-    ??? Data/                # Database context
-    ??? Repositories/        # Data access logic
+
+E_Commerce.API (Presentation Layer)
+Controllers/          # API endpoints
+Program.cs           # Application entry point
+Dockerfile           # Container configuration
+
+E_Commerce.Application (Application Layer)
+DTOs/                # Data Transfer Objects
+Interfaces/          # Service contracts
+Services/            # Business logic
+Mappings/            # AutoMapper profiles
+Validators/          # Input validation
+
+E_Commerce.Core (Domain Layer)
+Entities/            # Domain models
+Interfaces/          # Repository contracts
+
+E_Commerce.Infrastructure (Infrastructure Layer)
+Data/                # Database context
+Repositories/        # Data access logic
 ```
 
 ### Design Patterns Used
@@ -233,7 +233,7 @@ Local: https://localhost:5001
 
 ### Authentication
 
-All endpoints except `/auth/register` and `/auth/login` require a JWT token in the Authorization header:
+All endpoints except `/auth/register` and `/auth/login` require a JWT token in the Authorization header on SWAGGER, remember to add "Bearer" before the token:
 
 ```
 Authorization: Bearer <your-jwt-token>
@@ -322,7 +322,7 @@ GET /api/products?pageNumber=1&pageSize=10&categoryId=<guid>&minPrice=100&maxPri
         "price": 999.99,
         "stockQuantity": 50,
         "categoryName": "Electronics",
-        "imageUrl": "https://..."
+        "imageUrl": "https://image"
       }
     ],
     "pageNumber": 1,
@@ -353,7 +353,7 @@ Content-Type: application/json
   "description": "Latest Apple flagship phone",
   "price": 999.99,
   "stockQuantity": 100,
-  "imageUrl": "https://example.com/iphone.jpg",
+  "imageUrl": "https://url",
   "categoryId": "category-guid"
 }
 ```
@@ -588,13 +588,13 @@ Authorization: Bearer <token>
 
 ### How It Works
 
-1. **User adds items to cart** ? Products saved temporarily
-2. **User clicks checkout** ? Order created with status "Pending"
-3. **API calls M-Pesa STK Push** ? Push notification sent to phone
-4. **User enters M-Pesa PIN** ? Payment processed by Safaricom
-5. **M-Pesa sends callback** ? API receives payment confirmation
-6. **Order status updated** ? "Completed" + stock reduced
-7. **User receives confirmation** ? Receipt number saved
+1. **User adds items to cart** - Products saved temporarily
+2. **User clicks checkout** - Order created with status "Pending"
+3. **API calls M-Pesa STK Push** - Push notification sent to phone
+4. **User enters M-Pesa PIN** - Payment processed by Safaricom
+5. **M-Pesa sends callback** - API receives payment confirmation
+6. **Order status updated** - "Completed" + stock reduced
+7. **User receives confirmation** - Receipt number saved
 
 ### Sandbox Testing
 
@@ -680,15 +680,15 @@ ASPNETCORE_URLS=http://+:8080
 ### Entity Relationships
 
 ```
-User (1) ???????? (Many) Cart
-                        ?
-                        ??? (Many) CartItem ???? (1) Product
+User (1) --- (Many) Cart
+                        -
+                        --- (Many) CartItem ???? (1) Product
                         
-User (1) ???????? (Many) Order
-                        ?
-                        ??? (Many) OrderItem ???? (1) Product
+User (1) --- (Many) Order
+                        -
+                        --- (Many) OrderItem ???? (1) Product
 
-Category (1) ???? (Many) Product
+Category (1) --- (Many) Product
 ```
 
 ### Core Tables
