@@ -3,6 +3,7 @@ using System;
 using E_Commerce.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ECommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251128103720_AddCartFeature")]
+    partial class AddCartFeature
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,21 +122,21 @@ namespace ECommerce.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5046fdb5-e830-41cc-acc3-ed26e80f55b3"),
-                            CreatedAt = new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2581),
+                            Id = new Guid("b36939cc-b795-49ee-8f09-641266face46"),
+                            CreatedAt = new DateTime(2025, 11, 28, 10, 37, 20, 49, DateTimeKind.Utc).AddTicks(601),
                             Description = "Electronic devices and gadgets",
                             Name = "Electronics",
                             Slug = "electronics",
-                            UpdatedAt = new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2586)
+                            UpdatedAt = new DateTime(2025, 11, 28, 10, 37, 20, 49, DateTimeKind.Utc).AddTicks(607)
                         },
                         new
                         {
-                            Id = new Guid("beeedd38-e7d2-4733-9680-b75d12c9075d"),
-                            CreatedAt = new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2588),
+                            Id = new Guid("0ab5a00a-c59c-4e7e-a38a-0ca0f13670a9"),
+                            CreatedAt = new DateTime(2025, 11, 28, 10, 37, 20, 49, DateTimeKind.Utc).AddTicks(609),
                             Description = "Books and magazines",
                             Name = "Books",
                             Slug = "books",
-                            UpdatedAt = new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2588)
+                            UpdatedAt = new DateTime(2025, 11, 28, 10, 37, 20, 49, DateTimeKind.Utc).AddTicks(609)
                         });
                 });
 

@@ -32,5 +32,9 @@ public class RegisterationRequestValidator : AbstractValidator<RegisterationRequ
         RuleFor(x => x.LastName)
             .NotEmpty().WithMessage("Last name is required")
             .MaximumLength(100).WithMessage("Last name must not exceed 100 characters");
+
+        RuleFor(x => x.Role)
+           .IsInEnum().WithMessage("Invalid role. Must be 0 (Customer) or 1 (Admin)");
+
     }
 }

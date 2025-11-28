@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ECommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251127054040_InitialUpdateCart")]
-    partial class InitialUpdateCart
+    [Migration("20251128103527_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,22 +122,125 @@ namespace ECommerce.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d5cbf343-80b9-4bc9-8261-4dd0f11e9162"),
-                            CreatedAt = new DateTime(2025, 11, 27, 5, 40, 40, 93, DateTimeKind.Utc).AddTicks(1309),
+                            Id = new Guid("41b6a53d-c6cc-4912-bce6-e82391814336"),
+                            CreatedAt = new DateTime(2025, 11, 28, 10, 35, 26, 980, DateTimeKind.Utc).AddTicks(7405),
                             Description = "Electronic devices and gadgets",
                             Name = "Electronics",
                             Slug = "electronics",
-                            UpdatedAt = new DateTime(2025, 11, 27, 5, 40, 40, 93, DateTimeKind.Utc).AddTicks(1311)
+                            UpdatedAt = new DateTime(2025, 11, 28, 10, 35, 26, 980, DateTimeKind.Utc).AddTicks(7408)
                         },
                         new
                         {
-                            Id = new Guid("9e2d54b2-77e3-465a-9686-2bae3525ea31"),
-                            CreatedAt = new DateTime(2025, 11, 27, 5, 40, 40, 93, DateTimeKind.Utc).AddTicks(1313),
+                            Id = new Guid("a73b4d8d-e743-4252-a47f-bc1ef484cd27"),
+                            CreatedAt = new DateTime(2025, 11, 28, 10, 35, 26, 980, DateTimeKind.Utc).AddTicks(7409),
                             Description = "Books and magazines",
                             Name = "Books",
                             Slug = "books",
-                            UpdatedAt = new DateTime(2025, 11, 27, 5, 40, 40, 93, DateTimeKind.Utc).AddTicks(1313)
+                            UpdatedAt = new DateTime(2025, 11, 28, 10, 35, 26, 980, DateTimeKind.Utc).AddTicks(7409)
                         });
+                });
+
+            modelBuilder.Entity("E_Commerce.Core.Entities.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MpesaCheckoutRequestId")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("MpesaMerchantRequestId")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("MpesaReceiptNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("OrderNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MpesaCheckoutRequestId");
+
+                    b.HasIndex("OrderNumber")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("E_Commerce.Core.Entities.OrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ProductImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("E_Commerce.Core.Entities.Product", b =>
@@ -269,6 +372,36 @@ namespace ECommerce.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("E_Commerce.Core.Entities.Order", b =>
+                {
+                    b.HasOne("E_Commerce.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("E_Commerce.Core.Entities.OrderItem", b =>
+                {
+                    b.HasOne("E_Commerce.Core.Entities.Order", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_Commerce.Core.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("E_Commerce.Core.Entities.Product", b =>
                 {
                     b.HasOne("E_Commerce.Core.Entities.Category", "Category")
@@ -288,6 +421,11 @@ namespace ECommerce.Infrastructure.Migrations
             modelBuilder.Entity("E_Commerce.Core.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("E_Commerce.Core.Entities.Order", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

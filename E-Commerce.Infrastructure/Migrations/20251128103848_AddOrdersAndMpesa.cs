@@ -16,20 +16,20 @@ namespace ECommerce.Infrastructure.Migrations
             migrationBuilder.DeleteData(
                 table: "Categories",
                 keyColumn: "Id",
-                keyValue: new Guid("9e2d54b2-77e3-465a-9686-2bae3525ea31"));
+                keyValue: new Guid("0ab5a00a-c59c-4e7e-a38a-0ca0f13670a9"));
 
             migrationBuilder.DeleteData(
                 table: "Categories",
                 keyColumn: "Id",
-                keyValue: new Guid("d5cbf343-80b9-4bc9-8261-4dd0f11e9162"));
+                keyValue: new Guid("b36939cc-b795-49ee-8f09-641266face46"));
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CreatedAt", "Description", "Name", "Slug", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("85ba05f7-9ec0-4f46-b312-8292a0ad3740"), new DateTime(2025, 11, 27, 13, 10, 25, 126, DateTimeKind.Utc).AddTicks(3415), "Books and magazines", "Books", "books", new DateTime(2025, 11, 27, 13, 10, 25, 126, DateTimeKind.Utc).AddTicks(3415) },
-                    { new Guid("e0a41bfc-8187-479a-96da-82becdbdc2e2"), new DateTime(2025, 11, 27, 13, 10, 25, 126, DateTimeKind.Utc).AddTicks(3411), "Electronic devices and gadgets", "Electronics", "electronics", new DateTime(2025, 11, 27, 13, 10, 25, 126, DateTimeKind.Utc).AddTicks(3413) }
+                    { new Guid("5046fdb5-e830-41cc-acc3-ed26e80f55b3"), new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2581), "Electronic devices and gadgets", "Electronics", "electronics", new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2586) },
+                    { new Guid("beeedd38-e7d2-4733-9680-b75d12c9075d"), new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2588), "Books and magazines", "Books", "books", new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2588) }
                 });
         }
 
@@ -39,20 +39,20 @@ namespace ECommerce.Infrastructure.Migrations
             migrationBuilder.DeleteData(
                 table: "Categories",
                 keyColumn: "Id",
-                keyValue: new Guid("85ba05f7-9ec0-4f46-b312-8292a0ad3740"));
+                keyValue: new Guid("5046fdb5-e830-41cc-acc3-ed26e80f55b3"));
 
             migrationBuilder.DeleteData(
                 table: "Categories",
                 keyColumn: "Id",
-                keyValue: new Guid("e0a41bfc-8187-479a-96da-82becdbdc2e2"));
+                keyValue: new Guid("beeedd38-e7d2-4733-9680-b75d12c9075d"));
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CreatedAt", "Description", "Name", "Slug", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("9e2d54b2-77e3-465a-9686-2bae3525ea31"), new DateTime(2025, 11, 27, 5, 40, 40, 93, DateTimeKind.Utc).AddTicks(1313), "Books and magazines", "Books", "books", new DateTime(2025, 11, 27, 5, 40, 40, 93, DateTimeKind.Utc).AddTicks(1313) },
-                    { new Guid("d5cbf343-80b9-4bc9-8261-4dd0f11e9162"), new DateTime(2025, 11, 27, 5, 40, 40, 93, DateTimeKind.Utc).AddTicks(1309), "Electronic devices and gadgets", "Electronics", "electronics", new DateTime(2025, 11, 27, 5, 40, 40, 93, DateTimeKind.Utc).AddTicks(1311) }
+                    { new Guid("0ab5a00a-c59c-4e7e-a38a-0ca0f13670a9"), new DateTime(2025, 11, 28, 10, 37, 20, 49, DateTimeKind.Utc).AddTicks(609), "Books and magazines", "Books", "books", new DateTime(2025, 11, 28, 10, 37, 20, 49, DateTimeKind.Utc).AddTicks(609) },
+                    { new Guid("b36939cc-b795-49ee-8f09-641266face46"), new DateTime(2025, 11, 28, 10, 37, 20, 49, DateTimeKind.Utc).AddTicks(601), "Electronic devices and gadgets", "Electronics", "electronics", new DateTime(2025, 11, 28, 10, 37, 20, 49, DateTimeKind.Utc).AddTicks(607) }
                 });
         }
     }

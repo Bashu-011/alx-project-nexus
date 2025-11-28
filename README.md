@@ -730,7 +730,7 @@ Category (1) ???? (Many) Product
 
 ### Manual Testing with Swagger
 
-1. Navigate to `https://your-app.railway.app`
+1. Navigate to `https://alx-project-nexus-production-cbfd.up.railway.app/swagger/index.html`
 2. Click **"Authorize"** button
 3. Enter JWT token: `Bearer <token>`
 4. Test endpoints interactively
@@ -755,7 +755,7 @@ curl -X GET https://your-app.railway.app/api/products \
 
 ---
 
-## ?? API Response Format
+## API Response Format
 
 All API responses follow this consistent structure:
 
@@ -798,9 +798,9 @@ All API responses follow this consistent structure:
 
 ---
 
-## ?? Roadmap
+## Future of the Project
 
-### Phase 1 (Current) ?
+### Phase 1 (Current) 
 - [x] User authentication
 - [x] Product management
 - [x] Shopping cart
@@ -822,58 +822,17 @@ All API responses follow this consistent structure:
 - [ ] Promotional codes/coupons
 - [ ] Multi-currency support
 
----
-
-## ?? Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Coding Standards
-
-- Follow C# naming conventions
-- Write clean, self-documenting code
-- Add XML comments to public methods
-- Include unit tests for new features
-- Update documentation
 
 ---
 
-## ?? License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
 
-## ????? Author
 
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
-- LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
 
----
 
-## ?? Acknowledgments
 
-- [ASP.NET Core Documentation](https://docs.microsoft.com/aspnet/core)
-- [M-Pesa Daraja API](https://developer.safaricom.co.ke/)
-- [Railway Deployment Platform](https://railway.app)
-- [Entity Framework Core](https://docs.microsoft.com/ef/core)
 
----
 
-## ?? Support
-
-For issues or questions:
-- Open an [Issue](https://github.com/yourusername/repo/issues)
-- Email: support@yourdomain.com
-
----
-
-**? If you find this project helpful, please give it a star!**
