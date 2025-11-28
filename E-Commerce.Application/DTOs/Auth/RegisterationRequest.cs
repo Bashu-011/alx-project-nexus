@@ -1,4 +1,6 @@
-﻿namespace E_Commerce.Application.DTOs.Auth;
+﻿using E_Commerce.Core.Entities;
+
+namespace E_Commerce.Application.DTOs.Auth;
 
 public class RegisterationRequest
 {
@@ -7,5 +9,7 @@ public class RegisterationRequest
     public string ConfirmPassword { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
+
+    public UserRole Role { get; set; } = UserRole.Customer;
 
 }

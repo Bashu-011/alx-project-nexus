@@ -47,6 +47,7 @@ public class AuthService : IAuthService
         var response = _mapper.Map<AuthResponse>(user);
         response.Token = token;
         response.ExpiresAt = _tokenService.GetTokenExpiration();
+        response.Role = user.Role.ToString();
 
         return response;
     }
