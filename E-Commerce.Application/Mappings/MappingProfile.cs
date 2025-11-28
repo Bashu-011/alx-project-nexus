@@ -19,7 +19,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Token, opt => opt.Ignore())
             .ForMember(dest => dest.ExpiresAt, opt => opt.Ignore())
             .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()));
-        The winner 
+     
         CreateMap<RegisterationRequest, User>()
             .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
             .ForMember(dest => dest.Id, opt => opt.Ignore())
