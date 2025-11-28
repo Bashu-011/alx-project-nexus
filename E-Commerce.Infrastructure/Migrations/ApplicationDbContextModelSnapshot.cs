@@ -119,21 +119,21 @@ namespace ECommerce.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("947224f8-b33d-46ab-bea8-ea7d58794e2e"),
-                            CreatedAt = new DateTime(2025, 11, 27, 8, 23, 14, 721, DateTimeKind.Utc).AddTicks(557),
+                            Id = new Guid("73b2e2bd-77cc-40e8-9966-68e8ed0eb982"),
+                            CreatedAt = new DateTime(2025, 11, 28, 9, 19, 16, 778, DateTimeKind.Utc).AddTicks(1697),
                             Description = "Electronic devices and gadgets",
                             Name = "Electronics",
                             Slug = "electronics",
-                            UpdatedAt = new DateTime(2025, 11, 27, 8, 23, 14, 721, DateTimeKind.Utc).AddTicks(559)
+                            UpdatedAt = new DateTime(2025, 11, 28, 9, 19, 16, 778, DateTimeKind.Utc).AddTicks(1698)
                         },
                         new
                         {
-                            Id = new Guid("c2ebe59d-b493-4730-acb5-cb60f298eb52"),
-                            CreatedAt = new DateTime(2025, 11, 27, 8, 23, 14, 721, DateTimeKind.Utc).AddTicks(561),
+                            Id = new Guid("0c94cc95-b35c-4a5f-bb7b-85d3ba15c5ee"),
+                            CreatedAt = new DateTime(2025, 11, 28, 9, 19, 16, 778, DateTimeKind.Utc).AddTicks(1700),
                             Description = "Books and magazines",
                             Name = "Books",
                             Slug = "books",
-                            UpdatedAt = new DateTime(2025, 11, 27, 8, 23, 14, 721, DateTimeKind.Utc).AddTicks(561)
+                            UpdatedAt = new DateTime(2025, 11, 28, 9, 19, 16, 778, DateTimeKind.Utc).AddTicks(1700)
                         });
                 });
 
