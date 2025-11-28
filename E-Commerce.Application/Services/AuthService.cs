@@ -37,7 +37,7 @@ public class AuthService : IAuthService
         var user = _mapper.Map<User>(request);
         //hasing password
         user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-        user.Role = UserRole.Customer;
+        user.Role = request.Role;
         user.IsActive = true;
 
         await _userRepository.AddAsync(user);
