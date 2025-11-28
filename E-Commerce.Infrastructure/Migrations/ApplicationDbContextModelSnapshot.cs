@@ -115,6 +115,26 @@ namespace ECommerce.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("5046fdb5-e830-41cc-acc3-ed26e80f55b3"),
+                            CreatedAt = new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2581),
+                            Description = "Electronic devices and gadgets",
+                            Name = "Electronics",
+                            Slug = "electronics",
+                            UpdatedAt = new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2586)
+                        },
+                        new
+                        {
+                            Id = new Guid("beeedd38-e7d2-4733-9680-b75d12c9075d"),
+                            CreatedAt = new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2588),
+                            Description = "Books and magazines",
+                            Name = "Books",
+                            Slug = "books",
+                            UpdatedAt = new DateTime(2025, 11, 28, 10, 38, 47, 826, DateTimeKind.Utc).AddTicks(2588)
+                        });
                 });
 
             modelBuilder.Entity("E_Commerce.Core.Entities.Order", b =>

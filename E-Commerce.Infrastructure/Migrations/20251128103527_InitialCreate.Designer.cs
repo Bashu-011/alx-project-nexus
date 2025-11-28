@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ECommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251128094110_AddOrdersAndMpesa")]
-    partial class AddOrdersAndMpesa
+    [Migration("20251128103527_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,6 +118,26 @@ namespace ECommerce.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("41b6a53d-c6cc-4912-bce6-e82391814336"),
+                            CreatedAt = new DateTime(2025, 11, 28, 10, 35, 26, 980, DateTimeKind.Utc).AddTicks(7405),
+                            Description = "Electronic devices and gadgets",
+                            Name = "Electronics",
+                            Slug = "electronics",
+                            UpdatedAt = new DateTime(2025, 11, 28, 10, 35, 26, 980, DateTimeKind.Utc).AddTicks(7408)
+                        },
+                        new
+                        {
+                            Id = new Guid("a73b4d8d-e743-4252-a47f-bc1ef484cd27"),
+                            CreatedAt = new DateTime(2025, 11, 28, 10, 35, 26, 980, DateTimeKind.Utc).AddTicks(7409),
+                            Description = "Books and magazines",
+                            Name = "Books",
+                            Slug = "books",
+                            UpdatedAt = new DateTime(2025, 11, 28, 10, 35, 26, 980, DateTimeKind.Utc).AddTicks(7409)
+                        });
                 });
 
             modelBuilder.Entity("E_Commerce.Core.Entities.Order", b =>
