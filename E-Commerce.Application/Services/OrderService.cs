@@ -94,7 +94,7 @@ public class OrderService : IOrderService
         {
             var stkResponse = await _mpesaService.InitiateStkPushAsync(
                 phoneNumber: request.PhoneNumber,
-                amount: totalAmount,
+                amount: 1, //totalAmount, //set to 1 for testing purposes
                 accountReference: orderNumber,
                 transactionDesc: $"Payment for order {orderNumber}"
             );

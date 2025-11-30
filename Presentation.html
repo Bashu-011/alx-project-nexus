@@ -1,0 +1,817 @@
+﻿<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Backend API - Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px;
+            display: none;
+            flex-direction: column;
+            animation: slideIn 0.5s ease;
+        }
+
+            .slide.active {
+                display: flex;
+            }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            color: #4a5568;
+            margin: 25px 0 15px 0;
+        }
+
+        p, li {
+            font-size: 1.3em;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding-left: 40px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+            li:before {
+                content: "✓";
+                position: absolute;
+                left: 0;
+                color: #48bb78;
+                font-weight: bold;
+                font-size: 1.5em;
+            }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #718096;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .author {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.4em;
+            color: #4a5568;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+            button:hover {
+                background: #5568d3;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            }
+
+            button:disabled {
+                background: #cbd5e0;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1.2em;
+            color: white;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-box {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+        }
+
+            .feature-box h3 {
+                font-size: 1.4em;
+                margin: 0 0 10px 0;
+                color: #667eea;
+            }
+
+            .feature-box p {
+                font-size: 1.1em;
+                margin: 0;
+            }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .tech-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .erd-diagram {
+            background: #f7fafc;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .erd-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            line-height: 2;
+            color: #2d3748;
+        }
+
+        .endpoint-box {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #48bb78;
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            background: #48bb78;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+            .endpoint-method.post {
+                background: #4299e1;
+            }
+
+            .endpoint-method.put {
+                background: #ed8936;
+            }
+
+            .endpoint-method.delete {
+                background: #f56565;
+            }
+
+        .highlight {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .deployment-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-box {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>E-Commerce Backend API</h1>
+            <p class="subtitle">A Production-Ready RESTful API with M-Pesa Integration</p>
+            <div class="author">
+                <p><strong>Developer:</strong>Sydney Mukisira</p>
+                <p><strong>Project:</strong>Project Nexus - Ecommerce BackEnd Application</p>
+                <p><strong>Date:</strong> December 2025</p>
+            </div>
+            <div class="tech-stack" style="justify-content: center; margin-top: 80px;">
+                <div class="tech-badge">ASP.NET Core 8.0</div>
+                <div class="tech-badge">PostgreSQL</div>
+                <div class="tech-badge">M-Pesa Daraja API</div>
+                <div class="tech-badge">Docker</div>
+                <div class="tech-badge">Railway</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Project Overview -->
+        <div class="slide">
+            <h2>📋 Project Overview</h2>
+            <p>A comprehensive e-commerce backend API featuring secure authentication, shopping cart management, and seamless M-Pesa payment integration.</p>
+
+            <h3>Core Objectives</h3>
+            <ul>
+                <li>Build a scalable, production-ready API</li>
+                <li>Implement secure JWT-based authentication</li>
+                <li>Integrate M-Pesa STK Push for payments</li>
+                <li>Apply clean architecture principles</li>
+                <li>Deploy to cloud platform (Railway)</li>
+            </ul>
+
+            <h3>Key Statistics</h3>
+            <div class="deployment-stats">
+                <div class="stat-box">
+                    <span class="stat-number">15+</span>
+                    <span class="stat-label">API Endpoints</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">7</span>
+                    <span class="stat-label">Database Tables</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">RESTful Design</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Architecture -->
+        <div class="slide">
+            <h2>🏗️ Clean Architecture</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Layer Structure</h3>
+                    <ul>
+                        <li><strong>API Layer:</strong> Controllers, HTTP handling</li>
+                        <li><strong>Application Layer:</strong> Business logic, services</li>
+                        <li><strong>Core Layer:</strong> Domain entities, interfaces</li>
+                        <li><strong>Infrastructure Layer:</strong> Data access, repositories</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Design Patterns</h3>
+                    <ul>
+                        <li>Repository Pattern</li>
+                        <li>Dependency Injection</li>
+                        <li>DTO Pattern</li>
+                        <li>Service Layer Pattern</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Benefits</h3>
+            <ul>
+                <li>Separation of concerns</li>
+                <li>Testable and maintainable code</li>
+                <li>Easy to extend and modify</li>
+                <li>Database-agnostic design</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: ERD & Data Model -->
+        <div class="slide">
+            <h2>🗄️ Entity Relationship Diagram</h2>
+            <div class="erd-diagram">
+                <div class="erd-text">
+                    User (1) ────────── (Many) Cart<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── (Many) CartItem ──── (1) Product<br><br>
+                    User (1) ────────── (Many) Order<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── (Many) OrderItem ──── (1) Product<br><br>
+                    Category (1) ────── (Many) Product
+                </div>
+            </div>
+
+            <h3>Key Design Decisions</h3>
+            <ul>
+                <li><strong>Cart Items:</strong> Store price snapshot to handle price changes</li>
+                <li><strong>Order Items:</strong> Historical record with product snapshot</li>
+                <li><strong>M-Pesa Tracking:</strong> CheckoutRequestID links orders to payments</li>
+            </ul>
+        </div>
+
+        <!-- Slide 5: Database Tables -->
+        <div class="slide">
+            <h2>📊 Data Model Rationale</h2>
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <h3>Users</h3>
+                    <p>Authentication, roles (Customer/Admin), profile data with BCrypt password hashing</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Products</h3>
+                    <p>Catalog with pricing, stock, images, and category relationships</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Cart &amp; CartItems</h3>
+                    <p>Temporary storage with price snapshots for checkout</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Orders &amp; OrderItems</h3>
+                    <p>Permanent records with M-Pesa tracking and historical snapshots</p>
+                </div>
+            </div>
+
+            <h3>Indexing Strategy</h3>
+            <ul>
+                <li>Unique indexes on email, slugs, order numbers</li>
+                <li>Foreign key indexes for fast joins</li>
+                <li>Price index for filtering/sorting</li>
+            </ul>
+        </div>
+
+        <!-- Slide 6: Key Features -->
+        <div class="slide">
+            <h2>✨ Key Features</h2>
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <h3>🔐 Authentication</h3>
+                    <p>JWT-based stateless authentication with role-based authorization</p>
+                </div>
+                <div class="feature-box">
+                    <h3>🛒 Shopping Cart</h3>
+                    <p>Add, update, remove items with real-time stock validation</p>
+                </div>
+                <div class="feature-box">
+                    <h3>💳 M-Pesa Payments</h3>
+                    <p>STK Push integration with automatic callback processing</p>
+                </div>
+                <div class="feature-box">
+                    <h3>📦 Order Management</h3>
+                    <p>Complete order tracking with payment status and history</p>
+                </div>
+                <div class="feature-box">
+                    <h3>🔍 Product Search</h3>
+                    <p>Filter, sort, pagination with category-based browsing</p>
+                </div>
+                <div class="feature-box">
+                    <h3>📝 Input Validation</h3>
+                    <p>FluentValidation for robust data integrity</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: API Endpoints -->
+        <div class="slide">
+            <h2>🔌 Key API Endpoints</h2>
+
+            <div class="endpoint-box">
+                <span class="endpoint-method post">POST</span>
+                <strong>/api/auth/register</strong> - User registration with role selection
+            </div>
+
+            <div class="endpoint-box">
+                <span class="endpoint-method post">POST</span>
+                <strong>/api/auth/login</strong> - JWT token generation
+            </div>
+
+            <div class="endpoint-box">
+                <span class="endpoint-method">GET</span>
+                <strong>/api/products</strong> - List products with filtering, sorting, pagination
+            </div>
+
+            <div class="endpoint-box">
+                <span class="endpoint-method post">POST</span>
+                <strong>/api/cart/items</strong> - Add product to cart with stock validation
+            </div>
+
+            <div class="endpoint-box">
+                <span class="endpoint-method post">POST</span>
+                <strong>/api/orders/checkout</strong> - Initiate M-Pesa payment
+            </div>
+
+            <div class="endpoint-box">
+                <span class="endpoint-method post">POST</span>
+                <strong>/api/mpesa/callback</strong> - Receive M-Pesa payment confirmation
+            </div>
+        </div>
+
+        <!-- Slide 8: Tech Stack -->
+        <div class="slide">
+            <h2>🛠️ Technologies &amp; Tools</h2>
+
+            <h3>Backend Framework</h3>
+            <div class="tech-stack">
+                <div class="tech-badge">ASP.NET Core 8.0</div>
+                <div class="tech-badge">C# 12</div>
+                <div class="tech-badge">Entity Framework Core</div>
+            </div>
+
+            <h3>Database &amp; Storage</h3>
+            <div class="tech-stack">
+                <div class="tech-badge">PostgreSQL 16</div>
+                <div class="tech-badge">Npgsql Driver</div>
+            </div>
+
+            <h3>Security &amp; Authentication</h3>
+            <div class="tech-stack">
+                <div class="tech-badge">JWT Tokens</div>
+                <div class="tech-badge">BCrypt Hashing</div>
+                <div class="tech-badge">HTTPS/TLS</div>
+            </div>
+
+            <h3>Libraries &amp; Packages</h3>
+            <div class="tech-stack">
+                <div class="tech-badge">AutoMapper</div>
+                <div class="tech-badge">FluentValidation</div>
+                <div class="tech-badge">Swagger/OpenAPI</div>
+            </div>
+
+            <h3>Payment Integration</h3>
+            <div class="tech-stack">
+                <div class="tech-badge">M-Pesa Daraja API</div>
+                <div class="tech-badge">STK Push</div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Best Practices -->
+        <div class="slide">
+            <h2>⚡ Best Practices Applied</h2>
+
+            <div class="two-column">
+                <div>
+                    <h3>Security</h3>
+                    <ul>
+                        <li>Password hashing with BCrypt</li>
+                        <li>JWT stateless authentication</li>
+                        <li>Role-based authorization</li>
+                        <li>Input validation &amp; sanitization</li>
+                        <li>HTTPS enforcement</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Code Quality</h3>
+                    <ul>
+                        <li>Clean Architecture</li>
+                        <li>SOLID principles</li>
+                        <li>Repository pattern</li>
+                        <li>Dependency injection</li>
+                        <li>Async/await patterns</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>API Design</h3>
+            <ul>
+                <li>RESTful conventions (GET, POST, PUT, DELETE)</li>
+                <li>Consistent response format</li>
+                <li>Proper HTTP status codes</li>
+                <li>Swagger/OpenAPI documentation</li>
+            </ul>
+        </div>
+
+        <!-- Slide 10: M-Pesa Integration -->
+        <div class="slide">
+            <h2>💳 M-Pesa Integration Flow</h2>
+
+            <h3>Payment Process</h3>
+            <div class="erd-diagram">
+                <div class="erd-text">
+                    1. User clicks "Checkout"<br>
+                    &nbsp;&nbsp;&nbsp;↓<br>
+                    2. API creates Order (Status: Pending)<br>
+                    &nbsp;&nbsp;&nbsp;↓<br>
+                    3. API calls M-Pesa STK Push<br>
+                    &nbsp;&nbsp;&nbsp;↓<br>
+                    4. M-Pesa sends push to customer's phone<br>
+                    &nbsp;&nbsp;&nbsp;↓<br>
+                    5. Customer enters M-Pesa PIN<br>
+                    &nbsp;&nbsp;&nbsp;↓<br>
+                    6. M-Pesa processes payment<br>
+                    &nbsp;&nbsp;&nbsp;↓<br>
+                    7. M-Pesa sends callback to API<br>
+                    &nbsp;&nbsp;&nbsp;↓<br>
+                    8. API updates Order (Status: Completed)<br>
+                    &nbsp;&nbsp;&nbsp;↓<br>
+                    9. Stock automatically reduced
+                </div>
+            </div>
+
+            <h3>Key Implementation Details</h3>
+            <ul>
+                <li>OAuth token generation for API access</li>
+                <li>Password encryption (Base64 encoding)</li>
+                <li>Callback endpoint for payment confirmation</li>
+                <li>Automatic stock reduction on success</li>
+            </ul>
+        </div>
+
+        <!-- Slide 11: Deployment -->
+        <div class="slide">
+            <h2>🚀 Deployment Summary</h2>
+
+            <h3>Platform: Railway.app</h3>
+            <ul>
+                <li><strong>Environment:</strong> Production</li>
+                <li><strong>Container:</strong> Docker</li>
+                <li><strong>Database:</strong> PostgreSQL (managed)</li>
+                <li><strong>URL:</strong> https://your-app.railway.app</li>
+                <li><strong>Auto-Deploy:</strong> GitHub integration</li>
+            </ul>
+
+            <h3>Deployment Features</h3>
+            <ul>
+                <li>Automatic HTTPS/TLS</li>
+                <li>Environment variables management</li>
+                <li>Auto-scaling capabilities</li>
+                <li>Real-time logs &amp; monitoring</li>
+                <li>Zero-downtime deployments</li>
+            </ul>
+
+            <h3>CI/CD Pipeline</h3>
+            <ul>
+                <li>Git push triggers build</li>
+                <li>Docker image creation</li>
+                <li>Database migrations applied</li>
+                <li>Health checks performed</li>
+                <li>Live deployment</li>
+            </ul>
+        </div>
+
+        <!-- Slide 12: Challenges & Solutions -->
+        <div class="slide">
+            <h2>🎯 Challenges &amp; Solutions</h2>
+
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <h3>Challenge: Price Changes</h3>
+                    <p><strong>Solution:</strong> Store price snapshots in cart and order items</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Challenge: Stock Overselling</h3>
+                    <p><strong>Solution:</strong> Validate stock at checkout, reduce only after payment</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Challenge: M-Pesa Callbacks</h3>
+                    <p><strong>Solution:</strong> Public endpoint with request validation and logging</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Challenge: Role Management</h3>
+                    <p><strong>Solution:</strong> User-selectable roles during registration</p>
+                </div>
+            </div>
+
+            <h3>Performance Optimizations</h3>
+            <ul>
+                <li>Database indexing on frequently queried fields</li>
+                <li>Eager loading with Include/ThenInclude</li>
+                <li>Async/await for I/O operations</li>
+                <li>Connection pooling for database</li>
+            </ul>
+        </div>
+
+        <!-- Slide 13: Future Enhancements -->
+        <div class="slide">
+            <h2>🔮 Future Enhancements</h2>
+
+            <div class="two-column">
+                <div>
+                    <h3>Phase 2</h3>
+                    <ul>
+                        <li>Email notifications</li>
+                        <li>Product reviews &amp; ratings</li>
+                        <li>Wishlist functionality</li>
+                        <li>Order cancellation</li>
+                        <li>Admin dashboard</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Phase 3</h3>
+                    <ul>
+                        <li>Multiple payment methods</li>
+                        <li>Shipping integration</li>
+                        <li>Promotional codes</li>
+                        <li>Multi-currency support</li>
+                        <li>Analytics &amp; reporting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Scalability Plans</h3>
+            <ul>
+                <li>Redis caching layer</li>
+                <li>Message queue for async processing</li>
+                <li>Microservices architecture</li>
+                <li>API rate limiting</li>
+            </ul>
+        </div>
+
+        <!-- Slide 14: Lessons Learned -->
+        <div class="slide">
+            <h2>📚 Lessons Learned</h2>
+
+            <h3>Technical Skills</h3>
+            <ul>
+                <li>Deep understanding of Clean Architecture</li>
+                <li>RESTful API design principles</li>
+                <li>Payment gateway integration complexities</li>
+                <li>Database design and optimization</li>
+                <li>Docker containerization</li>
+            </ul>
+
+            <h3>Best Practices</h3>
+            <ul>
+                <li>Importance of comprehensive error handling</li>
+                <li>Value of consistent API response formats</li>
+                <li>Critical role of input validation</li>
+                <li>Security-first development approach</li>
+                <li>Documentation as code</li>
+            </ul>
+
+            <h3>Project Management</h3>
+            <ul>
+                <li>Breaking down complex features into tasks</li>
+                <li>Incremental development and testing</li>
+                <li>Git workflow and commit conventions</li>
+            </ul>
+        </div>
+
+        <!-- Slide 15: Demo & Resources -->
+        <div class="slide">
+            <h2>🎬 Demo &amp; Resources</h2>
+
+            <h3>Live API</h3>
+            <p class="highlight" style="font-size: 1.5em; text-align: center; margin: 30px 0;">https://alx-project-nexus-production-cbfd.up.railway.app/swagger/index.html</p>
+
+            <h3>Documentation</h3>
+            <ul>
+                <li><strong>Swagger UI:</strong> Interactive API documentation</li>
+                <li><strong>GitHub Repo:</strong> Complete source code</li>
+                <li><strong>README:</strong> Setup &amp; usage instructions</li>
+                <li><strong>ERD Diagram:</strong> Database schema</li>
+            </ul>
+
+
+
+
+            <h3>GitHub Repository</h3>
+            <p class="highlight" style="font-size: 1.3em; text-align: center;">https://github.com/Bashu-011/alx-project-nexus</p>
+        </div>
+
+        <!-- Slide 16: Thank You -->
+        <div class="slide">
+            <h1 style="margin-top: 150px;">Thank You! </h1>
+
+
+            <div class="author" style="margin-top: 100px;">
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="slide-number">
+        <span id="current-slide">1</span> / <span id="total-slides">16</span>
+    </div>
+
+    <div class="navigation">
+        <button id="prev-btn" onclick="changeSlide(-1)" disabled="">← Previous</button>
+        <button id="next-btn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+
+            if (n >= totalSlides) currentSlide = totalSlides - 1;
+            if (n < 0) currentSlide = 0;
+
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+
+            // Update button states
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+
+</body>
+</html>
